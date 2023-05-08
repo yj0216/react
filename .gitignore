@@ -8,6 +8,7 @@
 /radio-group/node_modules
 /weather-app/node_modules
 /weather-app/src/key.js
+/news-viewer/node_modules
 .pnp
 .pnp.js
 

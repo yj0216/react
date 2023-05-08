@@ -22,7 +22,7 @@ import axios from 'axios';
 //     );
 // };
 
-const NewsList = () => {
+const NewsList = ({category}) => {
     const [articles,setArticles] = useState(null);
     const [loading,setLoading] = useState(false);
     
@@ -30,8 +30,9 @@ const NewsList = () => {
         const fetchData = async () => {
         setLoading(true);
         try{
+            const query = category === 'all' ? '' : `&category=${category}`;
             const response = await axios.get(
-                'https://newsapi.org/v2/top-headlines?country=kr&apiKey=e52bcbf4d20541bfb2b3a761939188f4'
+                `https://newsapi.org/v2/top-headlines?country=kr${query}&apiKey=e52bcbf4d20541bfb2b3a761939188f4`
             );
             setArticles(response.data.articles);
         } catch(e){
@@ -40,10 +41,12 @@ const NewsList = () => {
         setLoading(false);
     }
     fetchData();
-    },[]);
+    },[category]);
+    
     if(loading) {
         return <NewsListBlock>대기중...</NewsListBlock>
     }
+
     if(!articles){
         return null;
     }
@@ -54,16 +57,16 @@ const NewsList = () => {
                 <NewsItem key={article.url} article={article}/>
             ))}
         </NewsListBlock>
-    )
-}
+    );
+};
 
 const NewsListBlock = styled.div`
-    font-family:'default';
     box-sizing:border-box;
     padding-bottom: 3rem;
     width:768px;
     margin: 0 auto;
     margin-top: 2rem;
+
     @media screen and (max-width: 768px){
         width:100%;
         padding-left: 1rem;

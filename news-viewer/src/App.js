@@ -1,7 +1,12 @@
 // import axios from 'axios';
-import { useState } from 'react';
-import NewsList from './components/NewsList';
-
+// import { useState } from 'react';
+// import NewsList from './components/NewsList';
+// import Categories from './components/Categories';
+// import { useCallback } from 'react';
+import styled from 'styled-components';
+import { Route } from 'react-router-dom';
+import { Routes } from 'react-router-dom';
+import NewsPage from './pages/NewsPage';
 const App = () => {
   // const [data, setData] = useState(null);
   // const onClick = async () => {
@@ -34,10 +39,20 @@ const App = () => {
 //     </div>
 //   );
 
-  return <NewsList/>
-
+// const [category,setCategory] = useState('all');
+// const onSelect = useCallback(category => setCategory(category),[]);
+  return (
+  <Font>
+    <Routes>
+      <Route path="/:category?" element={<NewsPage />}/>
+    </Routes>
+  </Font>  
+  );
 };
 
+const Font = styled.div`
+   font-family:'default';
+`
 
 
 export default App;

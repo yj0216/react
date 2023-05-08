@@ -24,7 +24,7 @@ export default function Header() {
                         </Link> 
                     </li>
                     <li>
-                        <Link className='header-nav-item' to="person">
+                        <Link className='header-nav-item' to="/person">
                             인물
                         </Link>
                     </li>

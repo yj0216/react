@@ -1,7 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import { Link } from 'react-router-dom';
-
+import { NavLink } from 'react-router-dom';
 // const categories = [
 //     {
 //         name:'all',
@@ -43,7 +42,7 @@ const Categories = () => {
       {/* {categories.map(c => (
               <Category 
               key={c.name}
-              activeClassName="active"
+              className={({isActive}) => (isActive ? "active" : 'none')}
               exact={c.name === 'all'}
               to={c.name === 'all' ? '/' : `${c.name}`}
               >
@@ -52,27 +51,29 @@ const Categories = () => {
               </Category>
           ))} */}
       <Category>
+        <>
         <li>
-          <Link to="/" activeClassName="active" style={{ textDecoration: 'none',color: 'black'}}>전체보기</Link>
+          <NavLink to="/" className={({isActive}) => (isActive ? "active" : 'none')} style={{ textDecoration: 'none'}}>전체보기</NavLink>
         </li>
         <li>
-          <Link to="/business" activeClassName="active" style={{ textDecoration: 'none',color: 'black'}}>비즈니스</Link>
+          <NavLink to="/business" className={({isActive}) => (isActive ? "active" : 'none')} style={{ textDecoration: 'none'}}>비즈니스</NavLink>
         </li>
         <li>
-          <Link to="/entertainment" activeClassName="active" style={{ textDecoration: 'none',color: 'black'}}>엔터테이먼트</Link>
+          <NavLink to="/entertainment" className={({isActive}) => (isActive ? "active" : 'none')} style={{ textDecoration: 'none'}}>엔터테이먼트</NavLink>
         </li>
         <li>
-          <Link to="/health" activeClassName="active" style={{ textDecoration: 'none',color: 'black'}}>건강</Link>
+          <NavLink to="/health" className={({isActive}) => (isActive ? "active" : 'none')} style={{ textDecoration: 'none'}}>건강</NavLink>
         </li>
         <li>
-          <Link to="/science" activeClassName="active" style={{ textDecoration: 'none',color: 'black'}}>과학</Link>
+          <NavLink to="/science" className={({isActive}) => (isActive ? "active" : 'none')} style={{ textDecoration: 'none'}}>과학</NavLink>
         </li>
         <li>
-          <Link to="/sport" activeClassName="active" style={{ textDecoration: 'none',color: 'black'}}>스포츠</Link>
+          <NavLink to="/sport" className={({isActive}) => (isActive ? "active" : 'none')} style={{ textDecoration: 'none'}}>스포츠</NavLink>
         </li>
         <li>
-          <Link to="/technology" activeClassName="active" style={{ textDecoration: 'none',color: 'black'}}>기술</Link>
+          <NavLink to="/technology" className={({isActive}) => (isActive ? "active" : 'none')} style={{ textDecoration: 'none'}}>기술</NavLink>
         </li>
+        </>
       </Category>
     </CategoriesBlock>
   );
@@ -87,32 +88,34 @@ const CategoriesBlock = styled.div`
     width: 100%;
     overflow-x: auto;
   }
+
 `;
 
-const Category = styled.ul`
+const Category = styled(NavLink)`
   display: flex;
   flex-direction: row;
   cursor: pointer;
   padding-bottom: 0.25rem;
   padding-left: 0;
+  text-decoration: none;
   li:not(:first-of-type) {
     padding-left: 1rem;
   }
   li {
     white-space: pre;
-    color: black;
     font-size: 1.125rem;
     list-style-type: none;
-    text-decoration-line: none;
   }
-  li &:hover {
-    color: #495057;
+    
+  
+  li a:hover {
+    color: #3bc9db;
   }
-  &.active {
-    font-weight: 600;
-    border-bottom: 2px solid #22b8cf;
+  a.active {
+    font-weight: 600; 
+    border-bottom: 2px solid #22b8cf; 
     color: #22b8cf;
-    &:hover {
+    &:hover{
       color: #3bc9db;
     }
   }

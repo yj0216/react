@@ -9,6 +9,8 @@
 /weather-app/node_modules
 /weather-app/src/key.js
 /news-viewer/node_modules
+/wanted-pre-onboarding-frontend/node_modules
+/context-tutorial/node_modules
 .pnp
 .pnp.js
 

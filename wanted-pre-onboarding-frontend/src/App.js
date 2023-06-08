@@ -1,10 +1,52 @@
+import {  createBrowserRouter,RouterProvider, redirect } from 'react-router-dom';
+import axios from 'axios';
+import Home from './pages/Home';
+import SignIn from './pages/SignIn';
+import SignUp from './pages/SignUp';
+import Todo from './pages/Todo';
+
+const signLoader = () => {
+  const token = localStorage.getItem('access_token');
+  if (token) {
+    return redirect('/todo');
+  }
+  return null;
+};
+
+const todoLoader = async () => {
+  const token = localStorage.getItem('access_token');
+  if (!token) {
+    return redirect('/signin');
+  }
+
+  const data = await axios
+    .get(`${process.env.BACK_URL}}}/todos`, {
+      headers: {
+        authorization: `Bearer ${token}`,
+      },
+    })
+    .then((data) => {
+      if (data.statusCode === 401) {
+        throw new Error(data.message);
+      } else {
+        return data;
+      }
+    })
+    .catch((error) => {
+      console.log('에러!!!:', error);
+    });
+
+    return data;
+};
+const router = createBrowserRouter([
+  { path: '/', element: <Home /> },
+  { path: '/signin', loader: signLoader, element: <SignIn /> },
+  { path: '/signup', loader: signLoader, element: <SignUp /> },
+  { path: '/todo', loader: todoLoader, element: <Todo /> },
+]);
 
 function App() {
-  return (
-    <div className="App">
-  
-    </div>
-  );
+  return <RouterProvider router={router}/>;
 }
 
 export default App;

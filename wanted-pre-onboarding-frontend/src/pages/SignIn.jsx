@@ -2,20 +2,20 @@ import React from 'react';
 import { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import axios from 'axios';
-import { redirect } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+
 export default function SignIn() {
   const [notAllow, setNotAllow] = useState(true);
   const regurl = /@/;
-
   const [user, setUser] = useState({
     email: '',
     password: '',
   });
-
   const [checkUser, setCheckUser] = useState({
     emailCheck: false,
     passwordCheck: false,
   });
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (checkUser.emailCheck && checkUser.passwordCheck) {
@@ -27,7 +27,6 @@ export default function SignIn() {
 
   const emailConfirm = (e) => {
     if (regurl.test(e)) {
-      console.log(e);
       setCheckUser({
         ...checkUser,
         emailCheck: true,
@@ -41,7 +40,6 @@ export default function SignIn() {
   };
 
   const passwordConfirm = (e) => {
-    console.log(e.length);
     if (e.length >= 8) {
       setCheckUser({
         ...checkUser,
@@ -57,14 +55,15 @@ export default function SignIn() {
 
   const loginSuccess = async () => {
     const loginCheck = await axios
-      .post('https://www.pre-onboarding-selection-task.shop/auth/signin', user)
+      .post(`${process.env.REACT_APP_BACK_URL}/auth/signin`, user)
       .then((response) => {
         console.log('성공 적인 로그인', response);
         localStorage.setItem('access_token', response.data.access_token);
-        redirect('/todo')
+        navigate('/todos');
       })
       .catch((err) => {
         console.log('error!:', err);
+        alert('이메일 또는 비밀번호가 유효하지 않습니다.');
       });
 
     return loginCheck;
@@ -113,7 +112,7 @@ export default function SignIn() {
               value="로그인"
               onClick={loginSuccess}
             />
-            <input type="button" value="회원가입" />
+            <Link to="/signup">회원가입</Link>
           </div>
         </div>
       </div>
@@ -129,7 +128,7 @@ const LoginStyle = styled.div`
   transform: translate(-50%, 0);
   width: 100%;
   height: 100%;
-  height: 98vh;
+  height: 98.5vh;
   max-width: 400px;
   padding: 5px 20px;
 
@@ -158,7 +157,8 @@ const LoginStyle = styled.div`
   }
 
   .login-form-button {
-    margin-top: 300px;
+    position:absolute;
+    bottom:20px;
     input {
       width: 390px;
       height: 40px;
@@ -172,5 +172,20 @@ const LoginStyle = styled.div`
       background-color: #dadada;
       color: white;
     }
+  }
+  a {
+    display: block;
+    color: black;
+    width: 387px;
+    height: 40px;
+    font-size: 14px;
+    text-decoration: none;
+    border: 2px solid white;
+    border-radius: 10px;
+    background-color: #b0efff;
+    margin-top: 13px;
+    margin-left: 4px;
+    line-height: 40px;
+    cursor: pointer;
   }
 `;

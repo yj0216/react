@@ -8,7 +8,7 @@ import Todo from './pages/Todo';
 const signLoader = () => {
   const token = localStorage.getItem('access_token');
   if (token) {
-    return redirect('/todo');
+    return redirect('/todos');
   }
   return null;
 };
@@ -18,9 +18,9 @@ const todoLoader = async () => {
   if (!token) {
     return redirect('/signin');
   }
-
+  
   const data = await axios
-    .get(`${process.env.BACK_URL}}}/todos`, {
+    .get(`${process.env.REACT_APP_BACK_URL}/todos`, {
       headers: {
         authorization: `Bearer ${token}`,
       },
@@ -42,7 +42,7 @@ const router = createBrowserRouter([
   { path: '/', element: <Home /> },
   { path: '/signin', loader: signLoader, element: <SignIn /> },
   { path: '/signup', loader: signLoader, element: <SignUp /> },
-  { path: '/todo', loader: todoLoader, element: <Todo /> },
+  { path: '/todos', loader: todoLoader, element: <Todo /> },
 ]);
 
 function App() {

@@ -5,13 +5,17 @@ import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 
 export default function SignUp() {
+  // 최종 승인
   const [notAllow, setNotAllow] = useState(true);
   const navigate = useNavigate();
+  // 이메일 정규식
   const regurl = /@/;
+  // 유저 정보값
   const [user, setUser] = useState({
     email: '',
     password: '',
   });
+  // 유저 정보 확인
   const [checkUser, setCheckUser] = useState({
     confirmEmail: '',
     confirmPassword: '',
@@ -19,16 +23,18 @@ export default function SignUp() {
     passwordCheck: false,
     confirmEmailCheck: false,
     confirmPasswordCheck: false,
-    clickEmailCheck:false,
-    clickEmailCheck2:false,
-    clickPasswordCheck:false,
-    clickPasswordCheck2:false
+    clickEmailCheck: false,
+    clickEmailCheck2: false,
+    clickPasswordCheck: false,
+    clickPasswordCheck2: false,
   });
 
+  // 버튼 활성화 시키는 함수
   useEffect(() => {
     if (
       checkUser.emailCheck &&
-      checkUser.passwordCheck & checkUser.confirmEmailCheck &&
+      checkUser.passwordCheck &&
+      checkUser.confirmEmailCheck &&
       checkUser.confirmPasswordCheck
     ) {
       setNotAllow(false);
@@ -42,6 +48,7 @@ export default function SignUp() {
     checkUser.confirmPasswordCheck,
   ]);
 
+  // 이메일 정규식 확인 함수
   const emailConfirm = (e) => {
     if (regurl.test(e)) {
       setCheckUser({
@@ -56,6 +63,7 @@ export default function SignUp() {
     }
   };
 
+  // 이메일 재확인
   const emailConfirm2 = (e) => {
     if (user.email === e) {
       setCheckUser({
@@ -69,6 +77,7 @@ export default function SignUp() {
       });
     }
   };
+  // 비밀번호 길이 확인
   const passwordConfirm = (e) => {
     if (e.length >= 8) {
       setCheckUser({
@@ -82,6 +91,7 @@ export default function SignUp() {
       });
     }
   };
+  // 비밀번호 재확인
   const passwordConfirm2 = (e) => {
     if (user.password === e) {
       setCheckUser({
@@ -95,6 +105,7 @@ export default function SignUp() {
       });
     }
   };
+  // 회원가입 서버에 넘기는 함수
   const regSuccess = async () => {
     const loginCheck = await axios
       .post(`${process.env.REACT_APP_BACK_URL}/auth/signup`, user)
@@ -132,8 +143,7 @@ export default function SignUp() {
                   if (checkUser.clickEmailCheck === false) {
                     setCheckUser({ ...checkUser, clickEmailCheck: true });
                   }
-                }
-              }
+                }}
               />
               {checkUser.clickEmailCheck && !checkUser.emailCheck && (
                 <div className="errorMessage">
@@ -143,7 +153,7 @@ export default function SignUp() {
               <input
                 type="text"
                 className="input-check"
-                placeholder="이메일 확인"     
+                placeholder="이메일 확인"
                 onChange={(e) => {
                   setCheckUser({ ...checkUser, confirmEmail: e.target.value });
                   emailConfirm2(e.target.value);
@@ -152,8 +162,7 @@ export default function SignUp() {
                   if (checkUser.clickEmailCheck2 === false) {
                     setCheckUser({ ...checkUser, clickEmailCheck2: true });
                   }
-                }
-                }
+                }}
               />
               {checkUser.clickEmailCheck2 && !checkUser.confirmEmailCheck && (
                 <div className="errorMessage">이메일이 일치하지 않습니다.</div>
@@ -174,10 +183,9 @@ export default function SignUp() {
                 }}
                 onClick={() => {
                   if (checkUser.clickPasswordCheck === false) {
-                    setCheckUser({ ...checkUser, clickPasswordCheck: true});
+                    setCheckUser({ ...checkUser, clickPasswordCheck: true });
                   }
-                }
-              }
+                }}
               />
               {checkUser.clickPasswordCheck && !checkUser.passwordCheck && (
                 <div className="errorMessage">8자리 이상 입력해주세요</div>
@@ -197,14 +205,14 @@ export default function SignUp() {
                   if (checkUser.clickPasswordCheck2 === false) {
                     setCheckUser({ ...checkUser, clickPasswordCheck2: true });
                   }
-                }
-              }
+                }}
               />
-              {checkUser.clickPasswordCheck2 && !checkUser.confirmPasswordCheck && (
-                <div className="errorMessage">
-                  비밀번호가 일치하지 않습니다.
-                </div>
-              )}
+              {checkUser.clickPasswordCheck2 &&
+                !checkUser.confirmPasswordCheck && (
+                  <div className="errorMessage">
+                    비밀번호가 일치하지 않습니다.
+                  </div>
+                )}
             </div>
           </div>
 
@@ -222,7 +230,6 @@ export default function SignUp() {
     </LoginStyle>
   );
 }
-
 
 const LoginStyle = styled.div`
   position: absolute;
@@ -261,8 +268,8 @@ const LoginStyle = styled.div`
   }
 
   .login-form-button {
-    position:absolute;
-    bottom:20px;
+    position: absolute;
+    bottom: 20px;
     input {
       width: 390px;
       height: 40px;

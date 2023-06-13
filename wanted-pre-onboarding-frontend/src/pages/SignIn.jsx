@@ -5,18 +5,23 @@ import axios from 'axios';
 import { Link, useNavigate } from 'react-router-dom';
 
 export default function SignIn() {
+  // 최종 승인
   const [notAllow, setNotAllow] = useState(true);
+  // 이메일 정규식
   const regurl = /@/;
+  // 유저 정보
   const [user, setUser] = useState({
     email: '',
     password: '',
   });
+  // 정보 확인 
   const [checkUser, setCheckUser] = useState({
     emailCheck: false,
     passwordCheck: false,
   });
   const navigate = useNavigate();
 
+  // 정보 맞을 시 버튼 활성화 
   useEffect(() => {
     if (checkUser.emailCheck && checkUser.passwordCheck) {
       setNotAllow(false);
@@ -25,6 +30,7 @@ export default function SignIn() {
     setNotAllow(true);
   }, [checkUser.emailCheck, checkUser.passwordCheck]);
 
+  // 이메일 정규식 통과 확인
   const emailConfirm = (e) => {
     if (regurl.test(e)) {
       setCheckUser({
@@ -39,6 +45,7 @@ export default function SignIn() {
     }
   };
 
+  // 비밀번호 길이 확인
   const passwordConfirm = (e) => {
     if (e.length >= 8) {
       setCheckUser({
@@ -53,6 +60,7 @@ export default function SignIn() {
     }
   };
 
+  // 서버에서 로그인 정보 확인
   const loginSuccess = async () => {
     const loginCheck = await axios
       .post(`${process.env.REACT_APP_BACK_URL}/auth/signin`, user)
@@ -68,6 +76,7 @@ export default function SignIn() {
 
     return loginCheck;
   };
+  
   return (
     <LoginStyle>
       <div className="login-form">

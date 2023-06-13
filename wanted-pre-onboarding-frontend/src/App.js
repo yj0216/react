@@ -5,6 +5,7 @@ import SignIn from './pages/SignIn';
 import SignUp from './pages/SignUp';
 import Todo from './pages/Todo';
 
+// 토큰 유무 확인 후 페이지 이동(todos)
 const signLoader = () => {
   const token = localStorage.getItem('access_token');
   if (token) {
@@ -13,12 +14,12 @@ const signLoader = () => {
   return null;
 };
 
+// 토큰 유무 확인 후 페이지 이동(로그인)
 const todoLoader = async () => {
   const token = localStorage.getItem('access_token');
   if (!token) {
     return redirect('/signin');
-  }
-  
+  } 
   const data = await axios
     .get(`${process.env.REACT_APP_BACK_URL}/todos`, {
       headers: {
@@ -38,6 +39,7 @@ const todoLoader = async () => {
 
     return data;
 };
+
 const router = createBrowserRouter([
   { path: '/', element: <Home /> },
   { path: '/signin', loader: signLoader, element: <SignIn /> },

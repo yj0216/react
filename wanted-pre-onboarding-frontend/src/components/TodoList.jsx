@@ -2,21 +2,17 @@ import React from 'react';
 import styled from 'styled-components';
 import axios from 'axios';
 import { useState } from 'react';
-import { useEffect } from 'react';
-import { useRef } from 'react';
 export default function TodoList({ props }) {
   // todo 정보
   const [todo, setTodo] = useState({
-    todo: '',
+    todo: props.todo,
     isCompleted: props.isCompleted,
   });
   // 수정 중 인지 확인
-  const [status, setStatus] = useState(true);
-
-  // checkBox 업데이트
-  useEffect(() => {
-    updateList();
-  }, [todo.isCompleted]);
+  const [status, setStatus] = useState({
+    status: true,
+    isCompleted: todo.isCompleted
+  });
 
   // 리스트 삭제
   const deleteList = () => {
@@ -57,7 +53,7 @@ export default function TodoList({ props }) {
         )
         .then((res) => {
           console.log('성공:', res);
-          setStatus(true);
+          setStatus({ ...status, status: true });
         })
         .catch((err) => {
           if (err.response && err.response.status === 400) {
@@ -75,16 +71,15 @@ export default function TodoList({ props }) {
         <div>
           <input
             type="checkbox"
-            defaultChecked={todo.isCompleted}
-            onClick={() => {
-              if (todo.isCompleted) {
-                setTodo({ ...todo, isCompleted: false });
-              } else {
-                setTodo({ ...todo, isCompleted: true });
-              }
+            checked={todo.isCompleted}
+            onChange={(e) => {
+              let copy = todo;
+              copy.isCompleted = e.target.checked;
+              setTodo(copy);
+              if (status.status) updateList();
             }}
           />
-          {status ? (
+          {status.status ? (
             <>
               <span>{props.todo}</span>
               <div>
@@ -92,7 +87,7 @@ export default function TodoList({ props }) {
                   type="button"
                   className="modify-button"
                   onClick={() => {
-                    setStatus(false);
+                    setStatus({ ...status, status: false });
                     setTodo({ ...todo, todo: props.todo });
                   }}
                 />
@@ -122,7 +117,7 @@ export default function TodoList({ props }) {
                   type="button"
                   className="cancle-button"
                   onClick={() => {
-                    setStatus(true);
+                    setStatus({ ...status, status: true });
                   }}
                 />
               </div>
@@ -157,6 +152,14 @@ const ListStyle = styled.div`
   }
   .delete-button {
     background: url('https://cdn-icons-png.flaticon.com/512/6398/6398171.png')
+      no-repeat;
+    background-size: 10px;
+    background-position: 3px;
+    width: 20px;
+    height: 15px;
+  }
+  .cancle-button {
+    background: url('https://cdn-icons-png.flaticon.com/512/594/594864.png')
       no-repeat;
     background-size: 10px;
     background-position: 3px;

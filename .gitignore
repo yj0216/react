@@ -12,6 +12,7 @@
 /wanted-pre-onboarding-frontend/node_modules
 /wanted-pre-onboarding-frontend/.env
 /context-tutorial/node_modules
+/react-redux-tutorial/node_modules
 .pnp
 .pnp.js
 # testing

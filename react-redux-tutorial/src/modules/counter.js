@@ -26,13 +26,13 @@ const initialState = {
 
 
 // redux-actinos 이후
-export const increase = () => createAction(INCREASE);
-export const decrease = () => createAction(DECREASE);
+export const increase = createAction(INCREASE);
+export const decrease = createAction(DECREASE);
 
 const counter = handleActions(
     {
         [INCREASE]: (state, action) => ({ number: state.number + 1 }),
-        [DECREASE]: (state,action) => ({number:state.number - 1}),
+        [DECREASE]: (state, action) => ({ number: state.number - 1 }),
     },
     initialState,
 )

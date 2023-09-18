@@ -91,7 +91,7 @@ const CategoriesBlock = styled.div`
 
 `;
 
-const Category = styled(NavLink)`
+const Category = styled.div`
   display: flex;
   flex-direction: row;
   cursor: pointer;
@@ -110,6 +110,9 @@ const Category = styled(NavLink)`
   
   li a:hover {
     color: #3bc9db;
+  }
+  a {
+    color: black;
   }
   a.active {
     font-weight: 600; 

@@ -17,7 +17,6 @@ function TestQuery(){
     return data;
   },
 })
-
   if(isLoading){
     return 'Loading...'
   }
@@ -28,10 +27,13 @@ function TestQuery(){
 
   return(
     <div key={data.data.id}>
-      <h1>{data.data.first_name + ' ' +data.data.last_name}</h1>
+      <h1>이름 : {data.data.first_name + ' ' +data.data.last_name}</h1>
+      <p>이메일 : {data.data.email}</p>
+      <img alt="face" src={data.data.avatar}/>
     </div>
   )
 }
+
 function App() {
   return (
     <QueryClientProvider client={queryClient}>
